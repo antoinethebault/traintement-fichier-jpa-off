@@ -21,7 +21,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			
 			<!-- Drop and create à chaque redémarrage -->
-			<!-- <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" /> -->
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" /> 
 			
 			<!-- Affichage des requêtes SQL -->
 			<property name="hibernate.show_sql" value="true" />

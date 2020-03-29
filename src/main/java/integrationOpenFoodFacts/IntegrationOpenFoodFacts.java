@@ -92,7 +92,28 @@ public class IntegrationOpenFoodFacts {
 				
 				Produit produit = new Produit(nom, marque, categorie);
 				
-				ArrayList<Allergene> allergenes = new ArrayList<Allergene>();
+				ArrayList<Ingredient> ingredients = new ArrayList<>();
+				tableau[4]=tableau[4].replaceAll("\\s", "");
+				tableau[4]=tableau[4].replaceAll("\\[", "");
+				tableau[4]=tableau[4].replaceAll("\\]", "");
+				String separateur;
+				if (tableau[4].contains("-"))
+					separateur="-";
+				else
+					separateur=",";
+				for (String chaine : tableau[4].split(separateur)) {
+					if (chaine.length()<255) {
+						Ingredient ingredient = ingredientDao.find(chaine);
+						if (ingredient==null) {
+							ingredient = new Ingredient(chaine.toLowerCase());
+							ingredientDao.create(ingredient);
+						}
+						ingredients.add(ingredient);
+					}
+				}
+				produit.setIngredients(ingredients);
+				
+				ArrayList<Allergene> allergenes = new ArrayList<>();
 				tableau[28]=tableau[28].replaceAll("\\s", "");
 				tableau[28]=tableau[28].replaceAll("\\[", "");
 				tableau[28]=tableau[28].replaceAll("\\]", "");
@@ -106,7 +127,7 @@ public class IntegrationOpenFoodFacts {
 				}
 				produit.setAllergenes(allergenes);
 				
-				ArrayList<Additif> additifs = new ArrayList<Additif>();
+				ArrayList<Additif> additifs = new ArrayList<>();
 				tableau[29]=tableau[29].replaceAll("\\s", "");
 				tableau[29]=tableau[29].replaceAll("\\[", "");
 				tableau[29]=tableau[29].replaceAll("\\]", "");

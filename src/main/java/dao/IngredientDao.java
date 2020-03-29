@@ -15,14 +15,24 @@ public class IngredientDao extends DAO<Ingredient>{
 	@Override
 	public void create(Ingredient obj) {
 		EntityTransaction tx1 = entityManager.getTransaction();
-		TypedQuery<Ingredient> query = entityManager.createQuery("SELECT i FROM Ingredient i WHERE i.nom=:nom", Ingredient.class);
-		query.setParameter("nom", obj.getNom());
-		if (query.getResultList().isEmpty()) {
-			tx1.begin();
-			entityManager.persist(obj);
-			tx1.commit();
-		}
+		tx1.begin();
+		entityManager.persist(obj);
+		tx1.commit();
 		
 	}
 
+	/**
+	 * find
+	 * @param name
+	 * @return
+	 */
+	public Ingredient find (String name) {
+		TypedQuery<Ingredient> query = entityManager.createQuery("SELECT i FROM Ingredient i WHERE i.nom=:nom", Ingredient.class);
+		query.setParameter("nom", name);
+		if(query.getResultList().isEmpty())
+			return null;
+		else 
+			return query.getResultList().get(0);
+	}
+	
 }
